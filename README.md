@@ -86,7 +86,53 @@ Dubbo 提供了4种负载均衡实现，分别是基于权重随机算法的 Ran
 
 ## 怎么设计一个RPC框架？
 
+最简单的 RPC 框架应该是这样: 服务提供者 Provider 向注册中心注册服务，服务消费者 Consumer 通过注册中心拿到服务提供者相关信息，然后通过网络请求服务提供者。
+
 1. 首先需要一个服务注册中心，这样consumer和provider才能去注册和订阅服务，推荐使用 Zookeeper。
 2. 需要通信协议和工具框架，比如通过http或者rmi的协议通信，推荐基于 NIO 的 Netty 框架。
 3. 数据的传输序列化要考虑，JDK 自带的序列化效率低并且有安全漏洞。 所以，比较推荐常用的有 hession2、kyro、protostuff。
 4. 设计负载均衡的机制来决定consumer如何调用客户端，当然还要包含容错和重试的机制。
+5. 设计一个RPC协议，用于服务消费者与提供者通信。
+
+## 常见RPC框架
+
+Dubbo、Motan、gRPC...
+
+### Dubbo
+
+Apache Dubbo(incubating)是一款高性能、轻量级的开源Java Rpc框架，阿里开源、后来加入了Apache。，有三大核心特性:
+
+* 面向接口的远程方法调用
+* 集群容错和负载均衡
+* 服务自动注册和发现
+
+### Motan
+
+Motan 是新浪微博在2016年开源的一款Rpc框架，不过网上的资料比较少，使用的公司也蛮少的。
+
+### gRPC
+
+gRPC是 Google 开源的一款高性能、通用的开源RPC框架。主要面向移动应用并基于HTTP/2协议标准而设计，基于 ProtoBuf 序列化协议开发，并支持多语言。
+
+### Thrift
+
+Apache Thrift 是 Facebook 开源的跨语言的RPC框架，并且在很多互联网公司应用。
+
+### 总结
+
+gRPC 和 Thrift 虽然支持跨语言，但它们只提供了最基本的RPC功能，没有配套的服务化组件和服务治理组件支撑。
+
+Dubbo 在功能上、生态系统和社区活跃度上都是最好的。对于以 Java 为后端技术栈的公司，十分推荐 Dubbo。
+
+## 准备工作
+
+### 下载运行 zookeeper
+
+使用 Docker 来下载安装:
+
+```shell script
+docker pull zookeeper:3.5.8
+
+docker run -d --name zookeeper -p 2181:2181 zookeeper:3.5.8
+```
+
