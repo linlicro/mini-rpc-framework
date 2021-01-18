@@ -1,6 +1,7 @@
 package me.icro.rpc.remoting.transport.socket;
 
 import lombok.extern.slf4j.Slf4j;
+import me.icro.rpc.config.DefaultShutdownHook;
 import me.icro.rpc.entity.RpcServiceProperties;
 import me.icro.rpc.provider.IServiceProvider;
 import me.icro.rpc.provider.ServiceProviderImpl;
@@ -42,7 +43,7 @@ public class SocketRpcServer {
         try (ServerSocket server = new ServerSocket()) {
             String host = InetAddress.getLocalHost().getHostAddress();
             server.bind(new InetSocketAddress(host, PORT));
-//            CustomShutdownHook.getCustomShutdownHook().clearAll(); todo
+            DefaultShutdownHook.getCustomShutdownHook().clearAll();
             Socket socket;
             while ((socket = server.accept()) != null) {
                 log.info("client connected [{}]", socket.getInetAddress());

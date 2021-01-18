@@ -11,6 +11,8 @@
     <modules>
         <module>mini-rpc-framework-core</module>
         <module>mini-rpc-framework-common</module>
+        <module>example-provider</module>
+        <module>example-api</module>
     </modules>
     <properties>
         <encoding>UTF-8</encoding>
