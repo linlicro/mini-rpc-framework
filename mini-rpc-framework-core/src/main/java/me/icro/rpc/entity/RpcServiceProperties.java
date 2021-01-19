@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class RpcServiceProperties {
 
-    private static final String DELIMITER = "/";
+    private static final String DELIMITER = ":";
 
     /**
      * 版本号
