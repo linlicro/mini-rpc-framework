@@ -1,5 +1,7 @@
 package me.icro.rpc.loadbalance;
 
+import me.icro.rpc.remoting.dto.RpcRequest;
+
 import java.util.List;
 
 /**
@@ -9,22 +11,22 @@ import java.util.List;
 public abstract class AbstractLoadBalance implements ILoadBalance {
 
     @Override
-    public String selectServiceAddress(List<String> serviceAddresses, String rpcServiceName) {
+    public String selectServiceAddress(List<String> serviceAddresses, RpcRequest rpcRequest) {
         if (serviceAddresses == null || serviceAddresses.size() == 0) {
             return null;
         }
         if (serviceAddresses.size() == 1) {
             return serviceAddresses.get(0);
         }
-        return doSelect(serviceAddresses, rpcServiceName);
+        return doSelect(serviceAddresses, rpcRequest);
     }
 
     /**
      * 负载均衡的实现
      *
      * @param serviceAddresses 服务提供者地址集合
-     * @param rpcServiceName 服务提供者名
+     * @param rpcRequest rpcRequest
      * @return 地址
      */
-    protected abstract String doSelect(List<String> serviceAddresses, String rpcServiceName);
+    protected abstract String doSelect(List<String> serviceAddresses, RpcRequest rpcRequest);
 }

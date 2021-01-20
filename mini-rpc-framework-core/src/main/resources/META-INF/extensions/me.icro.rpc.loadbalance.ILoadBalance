@@ -1,1 +1,1 @@
-loadBalance=me.icro.rpc.loadbalance.impl.RandomLoadBalance
+loadBalance=me.icro.rpc.loadbalance.impl.ConsistentHashLoadBalance

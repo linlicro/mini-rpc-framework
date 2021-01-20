@@ -1,10 +1,12 @@
 package me.icro.rpc.registry.zk;
 
 import lombok.extern.slf4j.Slf4j;
+import me.icro.rpc.entity.RpcServiceProperties;
 import me.icro.rpc.exception.RpcException;
 import me.icro.rpc.extension.ExtensionLoader;
 import me.icro.rpc.loadbalance.ILoadBalance;
 import me.icro.rpc.registry.IServiceDiscovery;
+import me.icro.rpc.remoting.dto.RpcRequest;
 import org.apache.curator.framework.CuratorFramework;
 
 import java.net.InetSocketAddress;
@@ -26,14 +28,15 @@ public class ZkServiceDiscovery implements IServiceDiscovery {
     }
 
     @Override
-    public InetSocketAddress lookupService(String rpcServiceName) {
+    public InetSocketAddress lookupService(RpcRequest rpcRequest) {
+        String rpcServiceName = new RpcServiceProperties(rpcRequest).toRpcServiceName();
         CuratorFramework zkClient = CuratorUtils.getZkClient();
         List<String> serviceUrlList = CuratorUtils.getChildrenNodes(zkClient, rpcServiceName);
         if (serviceUrlList == null || serviceUrlList.size() == 0) {
             throw new RpcException(SERVICE_CAN_NOT_BE_FOUND, rpcServiceName);
         }
         // load balancing
-        String targetServiceUrl = loadBalance.selectServiceAddress(serviceUrlList, rpcServiceName);
+        String targetServiceUrl = loadBalance.selectServiceAddress(serviceUrlList, rpcRequest);
         log.info("获得服务提供者地址为:[{}]", targetServiceUrl);
         String[] socketAddressArray = targetServiceUrl.split(":");
         String host = socketAddressArray[0];

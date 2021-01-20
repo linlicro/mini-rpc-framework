@@ -1,6 +1,7 @@
 package me.icro.rpc.registry;
 
 import me.icro.rpc.extension.SPI;
+import me.icro.rpc.remoting.dto.RpcRequest;
 
 import java.net.InetSocketAddress;
 
@@ -14,8 +15,8 @@ public interface IServiceDiscovery {
     /**
      * 查找服务地址
      *
-     * @param rpcServiceName rpc服务名
+     * @param rpcRequest rpcRequest
      * @return 服务地址
      */
-    InetSocketAddress lookupService(String rpcServiceName);
+    InetSocketAddress lookupService(RpcRequest rpcRequest);
 }
