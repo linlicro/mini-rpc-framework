@@ -13,7 +13,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public String send(Message message) {
         log.info("MessageServiceImpl 收到: {}.", message.getTitle());
-        String result = "description is " + message.getDescription();
+        String result = message.getTitle() + ": " + message.getDescription();
         log.info("MessageServiceImpl 返回: {}.", result);
         return result;
     }

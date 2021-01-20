@@ -3,6 +3,7 @@ package me.icro.rpc.remoting.handler;
 import lombok.extern.slf4j.Slf4j;
 import me.icro.rpc.exception.RpcException;
 import me.icro.rpc.provider.IServiceProvider;
+import me.icro.rpc.provider.ServiceProviderImpl;
 import me.icro.rpc.remoting.dto.RpcRequest;
 import me.icro.rpc.utils.SingletonFactory;
 
@@ -18,7 +19,7 @@ public class RpcRequestHandler {
     private final IServiceProvider serviceProvider;
 
     public RpcRequestHandler() {
-        serviceProvider = SingletonFactory.getInstance(IServiceProvider.class);
+        serviceProvider = SingletonFactory.getInstance(ServiceProviderImpl.class);
     }
 
     public Object handle(RpcRequest rpcRequest) {
